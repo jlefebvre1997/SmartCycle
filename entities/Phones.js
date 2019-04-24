@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const sequelize = new Sequelize(process.env.MIX_DATABASE_URL);
 
 const Phones = sequelize.define('phone', {
-  userId: {
+  userid: {
     type: Sequelize.INTEGER,
     unique: true,
     primaryKey: true,

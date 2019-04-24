@@ -1,5 +1,5 @@
 data/
 node_modules/
-database_coordinates.sql
+database_*.sql
 .env
 .idea/

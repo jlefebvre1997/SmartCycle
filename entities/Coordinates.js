@@ -9,7 +9,7 @@ const Coordinates = sequelize.define('coordinate', {
   },
   latitude: Sequelize.FLOAT,
   longitude: Sequelize.FLOAT,
-  userId: {
+  userid: {
     type: Sequelize.INTEGER,
     unique: true
   },
