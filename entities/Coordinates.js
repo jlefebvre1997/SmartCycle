@@ -1,28 +1,25 @@
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('mysql://user:password@mysql.smartcycle_default:3306/database');
+const sequelize = new Sequelize(process.env.DATABASE_URL);
 
 class Coordinates extends Sequelize.Model {
-  constructor(id, lat, long) {
+  constructor(userId, lat, long) {
     super();
 
-    this.id = id;
-    this.lat = lat;
-    this.long = long;
-  }
-
-  saveItself() {
-    sequelize.sync().then(function () {
-      Coordinates.create({
-        id: this.id,
-        lat: this.lat,
-        long: this.long,
-      })
-    })
+    this.latitude = lat;
+    this.longitude = long;
+    this.userId = userId;
   }
 }
 
 Coordinates.init({
-  id: Sequelize.UUID,
-  lat: Sequelize.FLOAT,
-  long: Sequelize.FLOAT,
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true
+  },
+  latitude: Sequelize.FLOAT,
+  longitude: Sequelize.FLOAT,
+  userId: Sequelize.STRING,
 }, { sequelize, modelName: 'coordinates'});
+
+module.exports = Coordinates;

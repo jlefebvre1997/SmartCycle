@@ -1,4 +1,4 @@
-FROM node:10.12.0-alpine
+FROM node:9.11-alpine
 
 RUN apk update && \
 	apk add --no-cache \

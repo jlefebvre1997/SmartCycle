@@ -11,9 +11,10 @@ services:
       DOMAIN_NAME: "default:smartcycle.local"
     ports:
       - "3000:3000"
+      - "9229:9229"
 
   mysql:
-    image: mysql:8.0
+    image: mysql:5.7
     volumes:
       - .:/srv
       - ./data:/var/lib/mysql
