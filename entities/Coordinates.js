@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize(process.env.DATABASE_URL);
+const sequelize = new Sequelize(process.env.MIX_DATABASE_URL);
 
 class Coordinates extends Sequelize.Model {
   constructor(userId, lat, long) {

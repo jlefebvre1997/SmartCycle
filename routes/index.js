@@ -4,9 +4,7 @@ const Coordinates = require('../entities/Coordinates');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: process.env.MIX_DATABASE_URL });
-
-  res.err(process.env);
+  res.render('index', { title: "Ma grosse bite en plâtre" });
 });
 
 router.get('/add', function (req, res, next) {
