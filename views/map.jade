@@ -1,0 +1,40 @@
+extends layout
+
+block content
+    div#map
+      div.no-map
+        // le bordel qui s'affiche si pas de map
+
+    script.
+      var socket = io();
+
+      var marker = null;
+      var map = null;
+
+      socket.on('connect', function () {
+        socket.emit('connected', window.location.pathname.split('/')[2]);
+      })
+
+      socket.on('coordinate received', function (coordinate) {
+        if (!map) {
+          $('.no-map').remove();
+
+          map = L.map('map').setView([51.505, -0.09], 13);
+
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          }).addTo(map);
+        }
+
+        if (!marker) {
+          marker = new L.Marker([coordinate.latitude, coordinate.longitude])
+
+          marker.addTo(map)
+            .bindPopup('La personne que vous suivez est actuellement ici !')
+            .openPopup();
+        } else {
+          marker.setLatLng(new L.LatLng(coordinate.latitude, coordinate.longitude));
+        }
+
+        map.setView(new L.LatLng(coordinate.latitude, coordinate.longitude));
+      });
