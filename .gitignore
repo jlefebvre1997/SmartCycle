@@ -2,3 +2,4 @@ data/
 node_modules/
 database_coordinates.sql
 .env
+.idea/
