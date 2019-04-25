@@ -8,8 +8,21 @@ block content
     script.
       var socket = io();
 
-      var marker = null;
-      var map = null;
+      let marker;
+      let map;
+
+      if ("#{coordinate}") {
+        let coordinate = {
+          latitude: "#{coordinate.latitude}",
+          longitude: "#{coordinate.longitude}"
+        };
+
+        map = createMap(coordinate);
+        marker = createMarker(map, coordinate);
+      } else {
+        map = null;
+        marker = null;
+      }
 
       socket.on('connect', function () {
         socket.emit('connected', window.location.pathname.split('/')[2]);
@@ -21,22 +34,37 @@ block content
         if (!map) {
           $('.no-map').remove();
 
-          map = L.map('map').setView([51.505, -0.09], 13);
-
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          }).addTo(map);
+          map = createMap(coordinate);
         }
 
         if (!marker) {
-          marker = new L.Marker([coordinate.latitude, coordinate.longitude])
+          marker = createMarker(map, coordinate);
 
-          marker.addTo(map)
-            .bindPopup('La personne que vous suivez est actuellement ici !')
-            .openPopup();
         } else {
           marker.setLatLng(new L.LatLng(coordinate.latitude, coordinate.longitude));
         }
 
         map.setView(new L.LatLng(coordinate.latitude, coordinate.longitude));
       });
+
+      function createMap(coordinate) {
+        map = L.map('map').setView([coordinate.latitude, coordinate.longitude], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        return map;
+      }
+
+      function createMarker(map, coordinate) {
+        marker = new L.Marker([coordinate.latitude, coordinate.longitude])
+
+        marker
+          .addTo(map)
+          .bindPopup('La personne que vous suivez est actuellement ici !')
+          .openPopup()
+        ;
+
+        return marker;
+      }

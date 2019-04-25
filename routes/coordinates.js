@@ -4,7 +4,19 @@ module.exports = function (io) {
   const Coordinates = require('../entities/Coordinates');
 
   router.get('/map/:id', function (req, res, next) {
-    return res.render('map');
+    Coordinates.findOne({
+      where: {
+        userId: req.params.id
+      }
+    }).then(function (coordinate) {
+      let ret = null;
+
+      if (coordinate) {
+        ret = coordinate.dataValues;
+      }
+
+      return res.render('map', { coordinate: ret })
+    });
   });
 
   io.on('connection', function (socket) {
