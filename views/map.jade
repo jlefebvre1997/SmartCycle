@@ -16,6 +16,8 @@ block content
       })
 
       socket.on('coordinate received', function (coordinate) {
+         console.log(coordinate);
+
         if (!map) {
           $('.no-map').remove();
 
